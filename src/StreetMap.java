@@ -12,7 +12,12 @@ public class StreetMap {
 	        br = new BufferedReader(new FileReader(input));
 	        while ((currentLine = br.readLine()) != null) {
 	               String[] strArr = currentLine.split("\t");
-	               System.out.println(strArr[0]);
+	               String roadOrIntersection = strArr[0];
+	               String ID = strArr[1];
+	               String secondCol = strArr[2];
+	               String thirdCol = strArr[3];
+	               
+	               
 	        }
 
 	        } catch (IOException e) {
