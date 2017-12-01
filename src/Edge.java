@@ -1,9 +1,9 @@
 public class Edge {
 
-    private static String id;
-    private static Vertex start;
-    private static Vertex end;
-    private static int weight;
+    public static String id;
+    public static Vertex start;
+    public static Vertex end;
+    public static int weight;
 
     public Edge(String id, Vertex start, Vertex end, int weight) {
         this.id = id;

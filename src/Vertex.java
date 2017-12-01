@@ -1,8 +1,8 @@
 public class Vertex {
 
-    private static String id;
-    private static float latitude;
-    private static float longitude;
+    public static String id;
+    public static float latitude;
+    public static float longitude;
 
     public Vertex(String id, float latitude, float longitude) {
         this.id = id;
