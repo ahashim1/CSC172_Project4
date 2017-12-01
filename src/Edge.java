@@ -3,7 +3,7 @@ public class Edge {
     public static String id;
     public static Vertex start;
     public static Vertex end;
-    public static int weight;
+    public static double weight;
 
     public Edge(String id, Vertex start, Vertex end, int weight) {
         this.id = id;
@@ -24,7 +24,17 @@ public class Edge {
         return end;
     }
 
-    public static int getWeight() {
+    public static double getWeight() {
         return weight;
+    }
+
+    public static boolean contains(Vertex test) {
+        Vertex temp1 = start;
+        Vertex temp2 = end;
+
+        if (test == temp1 || test == temp2) {
+            return true;
+        }
+        return false;
     }
 }

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+//<<<<<<< HEAD
 import java.util.List;
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ public class Graph {
         return vertices.add(toAdd);
     }
 
-    //  Add edges and
+    //  Add edges
     public boolean addEdge(Edge toAdd) {
         if (!vertices.contains(toAdd.start)) {
             return vertices.add(toAdd.start);
@@ -43,40 +43,60 @@ public class Graph {
 
     public List<Vertex> getAdjacent(Vertex node) {
         List<Vertex> adjacent = new ArrayList<>();
-        //  TODO: find all adjacent vertices (that is, the vertices that share an edge)
+        //
+        for (Edge i : edges) {
+            //  Get all edges that contains the node, return a list of nodes in the edges that aren't the original
+            if (i.contains(node)) {
+                if (i.start != node) {
+                    adjacent.add(i.start);
+                }
+                else {
+                    adjacent.add(i.end);
+                }
+            }
+        }
         return adjacent;
     }
+
+    public boolean isConnected(Vertex node1, Vertex node2) {
+        for (Edge i : edges) {
+            if (i.start == node1 && i.end == node2) {
+                return true;
+            }
+            else if (i.start == node2 && i.end == node1) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
-=======
-import java.util.ArrayList;
 
 public class Graph {
 	static ArrayList<Edge> adjacentEdges = new ArrayList<Edge>();
 	static int numVertices;
 	static int numEdges;
-	
+
 	public Graph() {
 		numVertices = 0;
 		numEdges = 0;
 	}
-	
+
 	static void insertEdge(Edge e) {
 		numEdges += 1;
 		adjacentEdges.add(e);
 	}
-    
+
 	static boolean removeEdge(Edge e) {
 		return false;
 	}
-	
+
 	static void insertVertex(Vertex v) {
 	}
-    
+
 	static boolean removeVertex(Vertex v) {
 		return false;
 	}
-	
-	
-	
+
+
+
 }
->>>>>>> bd4bd7812856df959e4c52c2179687ea992232c9
