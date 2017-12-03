@@ -35,8 +35,8 @@ public class StreetMap extends JPanel {
         System.out.println(minLatitude);
         System.out.println(maxDistance);
         
-        double latitudeScale = width/Math.abs(maxLatitude - minLatitude) ;
-        double longitudeScale = height/Math.abs(maxLongitude - minLongitude) ;
+        double latitudeScale = this.getWidth()/Math.abs(maxLatitude - minLatitude) ;
+        double longitudeScale = this.getHeight()/Math.abs(maxLongitude - minLongitude) ;
         for (int i = 0; i<edges.size(); i++) {
 			Edge e = edges.get(i);
 			int startX = (int) ((e.getStart().getLatitude() - minLatitude) * latitudeScale);
