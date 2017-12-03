@@ -1,25 +1,28 @@
 
 public class Vertex {
 
-    public static String id;
-    public static float latitude;
-    public static float longitude;
+    private String id;
+    private double latitude;
+    private double longitude;
 
-    public Vertex(String id, float latitude, float longitude) {
-        this.id = id;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public Vertex(String id, double latitude, double longitude) {
+       this.id = id;
+       this.latitude = latitude;
+       this.longitude = longitude;
+    }
+    
+    public String getID() {
+    		return id;
+    }
+    
+    public double getLatitude() {
+    		return latitude;
+    }
+    
+    public double getLongitude() {
+    		return longitude;
     }
 
-    public static String getid() {
-        return id;
-    }
-
-    public static float getLatitude() {
-        return latitude;
-    }
-
-    public static float getLongitude() {
-        return longitude;
-    }
+	
+    
 }

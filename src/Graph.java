@@ -31,11 +31,11 @@ public class Graph {
 
     //  Add edges
     public boolean addEdge(Edge toAdd) {
-        if (!vertices.contains(toAdd.start)) {
-            return vertices.add(toAdd.start);
+        if (!vertices.contains(toAdd.getStart())) {
+            return vertices.add(toAdd.getStart());
         }
-        if (!vertices.contains(toAdd.end)) {
-            return vertices.add(toAdd.end);
+        if (!vertices.contains(toAdd.getEnd())) {
+            return vertices.add(toAdd.getEnd());
         }
 
         return edges.add(toAdd);
@@ -47,11 +47,11 @@ public class Graph {
         for (Edge i : edges) {
             //  Get all edges that contains the node, return a list of nodes in the edges that aren't the original
             if (i.contains(node)) {
-                if (i.start != node) {
-                    adjacent.add(i.start);
+                if (i.getStart() != node) {
+                    adjacent.add(i.getStart());
                 }
                 else {
-                    adjacent.add(i.end);
+                    adjacent.add(i.getEnd());
                 }
             }
         }
@@ -60,10 +60,10 @@ public class Graph {
 
     public boolean isConnected(Vertex node1, Vertex node2) {
         for (Edge i : edges) {
-            if (i.start == node1 && i.end == node2) {
+            if (i.getStart() == node1 && i.getEnd() == node2) {
                 return true;
             }
-            else if (i.start == node2 && i.end == node1) {
+            else if (i.getStart() == node2 && i.getEnd() == node1) {
                 return true;
             }
         }
@@ -71,32 +71,7 @@ public class Graph {
     }
 }
 
-public class Graph {
-	static ArrayList<Edge> adjacentEdges = new ArrayList<Edge>();
-	static int numVertices;
-	static int numEdges;
-
-	public Graph() {
-		numVertices = 0;
-		numEdges = 0;
-	}
-
-	static void insertEdge(Edge e) {
-		numEdges += 1;
-		adjacentEdges.add(e);
-	}
-
-	static boolean removeEdge(Edge e) {
-		return false;
-	}
-
-	static void insertVertex(Vertex v) {
-	}
-
-	static boolean removeVertex(Vertex v) {
-		return false;
-	}
 
 
 
-}
+
