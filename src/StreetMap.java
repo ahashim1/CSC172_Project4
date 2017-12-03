@@ -28,13 +28,6 @@ public class StreetMap extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.BLACK);
         
-        
-        System.out.println(maxLongitude);
-        System.out.println(minLongitude);
-        System.out.println(maxLatitude);
-        System.out.println(minLatitude);
-        System.out.println(maxDistance);
-        
         double latitudeScale = this.getWidth()/Math.abs(maxLatitude - minLatitude) ;
         double longitudeScale = this.getHeight()/Math.abs(maxLongitude - minLongitude) ;
         for (int i = 0; i<edges.size(); i++) {
@@ -57,7 +50,31 @@ public class StreetMap extends JPanel {
  
     
 	public static void main(String[] args) {
+		
+		
+        
+        
 		String input = args[0];
+		readInput(input);
+		
+		JFrame frame = new JFrame();
+        frame.setSize(400, 420);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        StreetMap streetmap = new StreetMap();
+        frame.setContentPane(streetmap);
+
+        frame.setVisible(true);
+        frame.invalidate();
+		
+		
+
+	}
+
+
+
+	private static void readInput(String input) {
 		BufferedReader br = null;
 		try {
 	        String currentLine;
@@ -102,23 +119,6 @@ public class StreetMap extends JPanel {
 	        }
 	        
 	        Graph g = new Graph(vertices, edges);
-	        
-	        
-	        JFrame frame = new JFrame();
-	        frame.setSize(400, 420);
-	        frame.setLocationRelativeTo(null);
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-	        StreetMap streetmap = new StreetMap();
-	        frame.setContentPane(streetmap);
-
-	        frame.setVisible(true);
-	        frame.invalidate();
-	        
-	        
-	        
-	        
-	        
 
 	        } catch (IOException e) {
 	            e.printStackTrace();
@@ -131,9 +131,6 @@ public class StreetMap extends JPanel {
 	                ex.printStackTrace();
 	            }
 	        }
-		
-		
-
 	}
 	
 	
