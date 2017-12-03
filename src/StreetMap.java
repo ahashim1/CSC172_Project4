@@ -21,23 +21,26 @@ public class StreetMap extends JPanel {
     static double maxDistance = -1 * Double.MAX_VALUE;
     static double width = 420;
     static double height = 400;
-    
+    static String input;
     @Override
     public void paintComponent(Graphics g)
     {
+    	
+    	
+    		readInput();
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.BLACK);
         
-        double latitudeScale = this.getWidth()/Math.abs(maxLatitude - minLatitude) ;
-        double longitudeScale = this.getHeight()/Math.abs(maxLongitude - minLongitude) ;
+        double latitudeScale = this.getHeight()/Math.abs(maxLatitude - minLatitude) ;
+        double longitudeScale = this.getWidth()/Math.abs(maxLongitude - minLongitude) ;
         for (int i = 0; i<edges.size(); i++) {
 			Edge e = edges.get(i);
-			int startX = (int) ((e.getStart().getLatitude() - minLatitude) * latitudeScale);
-			int startY = (int) ((e.getStart().getLongitude() - minLongitude) * longitudeScale);
+			int startX = (int) ((e.getStart().getLongitude() - minLongitude) * longitudeScale);
+			int startY = (int) (this.getHeight() - ((e.getStart().getLatitude() - minLatitude) * latitudeScale));
 			
 			
-			int endX = (int) ((e.getEnd().getLatitude() - minLatitude) * latitudeScale);
-			int endY = (int) ((e.getEnd().getLongitude() - minLongitude) * longitudeScale);
+			int endX = (int) ((e.getEnd().getLongitude() - minLongitude) * longitudeScale);
+			int endY = (int) (this.getHeight() - ((e.getEnd().getLatitude() - minLatitude) * latitudeScale));
 
 			g2.drawLine(startX, startY, endX, endY);
 
@@ -50,13 +53,8 @@ public class StreetMap extends JPanel {
  
     
 	public static void main(String[] args) {
-		
-		
-        
-        
-		String input = args[0];
-		readInput(input);
-		
+
+		input = args[0];
 		JFrame frame = new JFrame();
         frame.setSize(400, 420);
         frame.setLocationRelativeTo(null);
@@ -74,7 +72,7 @@ public class StreetMap extends JPanel {
 
 
 
-	private static void readInput(String input) {
+	private static void readInput() {
 		BufferedReader br = null;
 		try {
 	        String currentLine;
