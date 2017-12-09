@@ -27,13 +27,17 @@ public class StreetMap extends JPanel {
     static double maxDistance = -1 * Double.MAX_VALUE;
     static double width = 420;
     static double height = 400;
-    
+    static String input;
     @Override
     public void paintComponent(Graphics g)
     {
+    	
+    	
+    		readInput();
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.BLACK);
         
+<<<<<<< HEAD
         
 //        System.out.println(maxLongitude);
 //        System.out.println(minLongitude);
@@ -43,14 +47,18 @@ public class StreetMap extends JPanel {
         
         double latitudeScale = this.getWidth()/Math.abs(maxLatitude - minLatitude) ;
         double longitudeScale = this.getHeight()/Math.abs(maxLongitude - minLongitude) ;
+=======
+        double latitudeScale = this.getHeight()/Math.abs(maxLatitude - minLatitude) ;
+        double longitudeScale = this.getWidth()/Math.abs(maxLongitude - minLongitude) ;
+>>>>>>> b7f1ca5fab61e61a0ddb29500efeba645ba693a7
         for (int i = 0; i<edges.size(); i++) {
 			Edge e = edges.get(i);
-			int startX = (int) ((e.getStart().getLatitude() - minLatitude) * latitudeScale);
-			int startY = (int) ((e.getStart().getLongitude() - minLongitude) * longitudeScale);
+			int startX = (int) ((e.getStart().getLongitude() - minLongitude) * longitudeScale);
+			int startY = (int) (this.getHeight() - ((e.getStart().getLatitude() - minLatitude) * latitudeScale));
 			
 			
-			int endX = (int) ((e.getEnd().getLatitude() - minLatitude) * latitudeScale);
-			int endY = (int) ((e.getEnd().getLongitude() - minLongitude) * longitudeScale);
+			int endX = (int) ((e.getEnd().getLongitude() - minLongitude) * longitudeScale);
+			int endY = (int) (this.getHeight() - ((e.getEnd().getLatitude() - minLatitude) * latitudeScale));
 
 			g2.drawLine(startX, startY, endX, endY);
 
@@ -170,7 +178,30 @@ public class StreetMap extends JPanel {
     }
     
 	public static void main(String[] args) {
+<<<<<<< HEAD
 		String input = "ur.txt";
+=======
+
+		input = args[0];
+		JFrame frame = new JFrame();
+        frame.setSize(400, 420);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        StreetMap streetmap = new StreetMap();
+        frame.setContentPane(streetmap);
+
+        frame.setVisible(true);
+        frame.invalidate();
+		
+		
+
+	}
+
+
+
+	private static void readInput() {
+>>>>>>> b7f1ca5fab61e61a0ddb29500efeba645ba693a7
 		BufferedReader br = null;
 		try {
 	        String currentLine;
@@ -215,23 +246,6 @@ public class StreetMap extends JPanel {
 	        }
 	        
 	        Graph g = new Graph(vertices, edges);
-	        
-	        
-	        JFrame frame = new JFrame();
-	        frame.setSize(400, 420);
-	        frame.setLocationRelativeTo(null);
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-	        StreetMap streetmap = new StreetMap();
-	        frame.setContentPane(streetmap);
-
-	        frame.setVisible(true);
-	        frame.invalidate();
-	        
-	        
-	        
-	        
-	        
 
 	        } catch (IOException e) {
 	            e.printStackTrace();
@@ -244,12 +258,15 @@ public class StreetMap extends JPanel {
 	                ex.printStackTrace();
 	            }
 	        }
+<<<<<<< HEAD
 
         Vertex start = vertices.get(0);
 		Vertex end = vertices.get(15);
         calculate(start);
 		List<Vertex> route = findPath(end);
 		printList(route);
+=======
+>>>>>>> b7f1ca5fab61e61a0ddb29500efeba645ba693a7
 	}
 	
 	
