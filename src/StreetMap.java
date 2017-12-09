@@ -170,7 +170,7 @@ public class StreetMap extends JPanel {
     
 	public static void main(String[] args) {
 
-		input = args[0];
+		input = "ur.txt";
 		JFrame frame = new JFrame();
         frame.setSize(400, 420);
         frame.setLocationRelativeTo(null);
