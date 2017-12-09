@@ -4,16 +4,22 @@ import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class StreetMap extends JPanel {
 
-	static ArrayList<Vertex> vertices = new ArrayList<Vertex>();
-    static ArrayList<Edge> edges = new ArrayList<Edge>();
-    
+	static ArrayList<Vertex> vertices = new ArrayList<>();
+    static ArrayList<Edge> edges = new ArrayList<>();
+
+    static ArrayList<Vertex> evaluatedNodes = new ArrayList<>();
+    static ArrayList<Vertex> unevaluatedNodes = new ArrayList<>();
+
+//    static HashMap<Vertex, Vertex> predecessors;
+//    static HashMap<Vertex, Double> distances;
+
     static double minLongitude = Double.MAX_VALUE;
     static double minLatitude = Double.MAX_VALUE;
     static double maxLongitude = -1 * Double.MAX_VALUE;
@@ -29,11 +35,11 @@ public class StreetMap extends JPanel {
         g2.setColor(Color.BLACK);
         
         
-        System.out.println(maxLongitude);
-        System.out.println(minLongitude);
-        System.out.println(maxLatitude);
-        System.out.println(minLatitude);
-        System.out.println(maxDistance);
+//        System.out.println(maxLongitude);
+//        System.out.println(minLongitude);
+//        System.out.println(maxLatitude);
+//        System.out.println(minLatitude);
+//        System.out.println(maxDistance);
         
         double latitudeScale = this.getWidth()/Math.abs(maxLatitude - minLatitude) ;
         double longitudeScale = this.getHeight()/Math.abs(maxLongitude - minLongitude) ;
@@ -49,15 +55,122 @@ public class StreetMap extends JPanel {
 			g2.drawLine(startX, startY, endX, endY);
 
         }
-        
-        
-        
+
+    }
+
+    //  Driver method
+    public static void calculate(Vertex start) {
+        start.setDistance(0.0);
+        unevaluatedNodes.add(start);
+
+        while(unevaluatedNodes.size() > 0) {
+            Vertex node = getMinimum(unevaluatedNodes);
+            evaluatedNodes.add(node);
+            unevaluatedNodes.remove(node);
+            findShortestPath(node);
+        }
+    }
+
+//    //  Evaluate predecessors list
+//    public static LinkedList<Vertex> findPath(Vertex end) {
+//        LinkedList<Vertex> path = new LinkedList<>();
+//        Vertex temp = end;
+//
+//        if (predecessors.get(end) == null) {
+//            return null;
+//        }
+//
+//        path.add(temp);
+//        while (predecessors.get(temp) != null) {
+//            temp = predecessors.get(temp);
+//            path.add(temp);
+//        }
+//
+//        Collections.reverse(path);
+//        return path;
+//    }
+
+    public static List<Vertex> findPath(Vertex end) {
+        return end.getPath();
+    }
+
+
+    //  Perform DJ Ikstra's algorithm
+    private static void findShortestPath(Vertex node) {
+        ArrayList<Vertex> adjacents = getAdjacent(node);
+        for (Vertex v : adjacents) {
+            if (closestDistance(v) > closestDistance(node) + getDistance(node, v)) {
+ //               distances.put(v, closestDistance(node) + getDistance(node, v));
+                v.setDistance(closestDistance(node) + getDistance(node, v));
+//                predecessors.put(v,node);
+                v.addToPath(node);
+                unevaluatedNodes.add(v);
+//                System.out.println(v.getID());
+            }
+        }
+    }
+
+    //  Return all adjacent, unevaluated nodes
+    private static ArrayList<Vertex> getAdjacent(Vertex node) {
+        ArrayList<Vertex> adjacent = new ArrayList<>();
+        for (Edge e : edges) {
+            if (e.getStart().equals(node) && !isEvaluated(e.getEnd())) {
+                adjacent.add(e.getEnd());
+            }
+            else if (e.getEnd().equals(node) && !isEvaluated(e.getStart())) {
+                adjacent.add(e.getStart());
+            }
+        }
+        return adjacent;
+    }
+
+    //  Return weight of edge connecting two vertices
+    private static double getDistance(Vertex source, Vertex target) {
+        for (Edge e : edges) {
+            if (e.getStart().equals(source) && e.getEnd().equals(target)
+                    || e.getStart().equals(target) && e.getEnd().equals(source)) {
+                return e.getWeight();
+            }
+        }
+        throw new RuntimeException("Not actually adjacent.");
+    }
+
+    //  Returns the closest vertices
+    private static Vertex getMinimum(ArrayList<Vertex> vertices) {
+        Vertex min = null;
+        for (Vertex v : vertices) {
+            if (min == null) {
+                min = v;
+            }
+            else {
+                if (closestDistance(v) < closestDistance(min)) {
+                    min = v;
+                }
+            }
+        }
+        return min;
+    }
+
+    //  Return distance of closest vertex to a vertex
+    private static double closestDistance(Vertex destination) {
+
+        Double d = destination.getDistance();
+
+        //  If unconnected, return infinity
+        if (d.equals(null)) {
+            return Double.MAX_VALUE;
+        }
+        else {
+            return d;
+        }
+    }
+
+    private static boolean isEvaluated(Vertex node) {
+        return evaluatedNodes.contains(node);
     }
     
- 
-    
 	public static void main(String[] args) {
-		String input = args[0];
+		String input = "ur.txt";
 		BufferedReader br = null;
 		try {
 	        String currentLine;
@@ -131,9 +244,12 @@ public class StreetMap extends JPanel {
 	                ex.printStackTrace();
 	            }
 	        }
-		
-		
 
+        Vertex start = vertices.get(0);
+		Vertex end = vertices.get(15);
+        calculate(start);
+		List<Vertex> route = findPath(end);
+		printList(route);
 	}
 	
 	
@@ -148,5 +264,14 @@ public class StreetMap extends JPanel {
 		
 		return null;
 	}
+
+	private static void printList(List<Vertex> route) {
+        if (route.isEmpty()) {
+            System.out.println("This is wrong");
+        }
+        for (Vertex v : route) {
+            System.out.println(v.getID());
+        }
+    }
 
 }
