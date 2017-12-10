@@ -1,14 +1,27 @@
 import java.util.LinkedList;
 import java.util.List;
 
-public class Vertex {
+public class Vertex implements Comparable<Vertex> {
 
     private String id;
     private double latitude;
     private double longitude;
 
+    /*
+    Returns true if the current path is a better way to get to a node than
+    its saved path
+    Look at this if the method does not work
+     */
+    public int compareTo(Vertex toCompare) {
+        Double dist1 = this.distance;
+        Double dist2 = toCompare.distance;
+
+        return Double.compare(dist2, dist1);
+    }
+
     private List<Vertex> path = new LinkedList<>();
     private double distance = Double.MAX_VALUE;
+    private Vertex parent;
 
     public Vertex(String id, double latitude, double longitude) {
        this.id = id;
