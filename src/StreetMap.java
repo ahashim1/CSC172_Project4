@@ -240,7 +240,7 @@ public class StreetMap extends JPanel {
 	               }
 	        }
 	        
-	        Graph g = new Graph(vertices, edges);
+//	        Graph g = new Graph(vertices, edges);
 
 	        } catch (IOException e) {
 	            e.printStackTrace();
