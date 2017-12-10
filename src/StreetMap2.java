@@ -118,6 +118,7 @@ public class StreetMap2 extends JPanel {
 	
 	
 	public static void main(String[] args) {
+    	System.out.print(Double.compare(1,2));
 		input = "monroe.txt";
 		JFrame frame = new JFrame();
         frame.setSize(400, 420);
