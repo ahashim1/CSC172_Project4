@@ -104,17 +104,14 @@ public class StreetMap extends JPanel {
       //          v.setDistance(closestDistance(node) + getDistance(node, v));
                     v.setDistance(node.getDistance() + getDistance(node,v));
 //                predecessors.put(v,node);
-<<<<<<< HEAD
                 System.out.println(node.getID());
                 v.addToPath(node);
                 unevaluatedNodes.add(v);
                 System.out.println(v.getID());
-=======
 
                 v.addToPath(node);
 //                System.out.println(v.getID());
                 unevaluatedNodes.add(v);
->>>>>>> d3af26067384dbb60aff2b855a679df106c45ea0
             }
         }
     }
