@@ -1,7 +1,5 @@
 import java.util.LinkedList;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Vertex {
 
@@ -16,6 +14,7 @@ public class Vertex {
        this.id = id;
        this.latitude = latitude;
        this.longitude = longitude;
+       path.add(this);
     }
     
     public String getID() {

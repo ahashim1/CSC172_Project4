@@ -89,9 +89,9 @@ public class StreetMap extends JPanel {
 //        return path;
 //    }
 
-    public static List<Vertex> findPath(Vertex end) {
-        return end.getPath();
-    }
+//    public static List<Vertex> findPath(Vertex end) {
+//        return end.getPath();
+//    }
 
 
     //  Perform DJ Ikstra's algorithm
@@ -248,8 +248,10 @@ public class StreetMap extends JPanel {
 
         Vertex start = vertices.get(0);
 		Vertex end = vertices.get(15);
+
         calculate(start);
-		List<Vertex> route = findPath(end);
+
+		List<Vertex> route = end.getPath();
 		printList(route);
 
 	}
