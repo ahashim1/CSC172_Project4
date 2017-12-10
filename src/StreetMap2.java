@@ -13,8 +13,7 @@ import javax.swing.JPanel;
 
 public class StreetMap2 extends JPanel {
 	static HashMap<String, Vertex> vertices = new HashMap<String, Vertex>();
-//	static ArrayList<Vertex> vertices = new ArrayList<>();
-    static ArrayList<Edge> edges = new ArrayList<>();
+    static HashMap<String, Edge> edges = new HashMap<String, Edge>();
     static double minLongitude = Double.MAX_VALUE;
     static double minLatitude = Double.MAX_VALUE;
     static double maxLongitude = -1 * Double.MAX_VALUE;
@@ -37,18 +36,20 @@ public class StreetMap2 extends JPanel {
         double latitudeScale = this.getHeight()/Math.abs(maxLatitude - minLatitude) ;
         double longitudeScale = this.getWidth()/Math.abs(maxLongitude - minLongitude) ;
        
-        for (int i = 0; i<edges.size(); i++) {
-			Edge e = edges.get(i);
-			int startX = (int) ((e.getStart().getLongitude() - minLongitude) * longitudeScale);
-			int startY = (int) (this.getHeight() - ((e.getStart().getLatitude() - minLatitude) * latitudeScale));
-			
-			
-			int endX = (int) ((e.getEnd().getLongitude() - minLongitude) * longitudeScale);
-			int endY = (int) (this.getHeight() - ((e.getEnd().getLatitude() - minLatitude) * latitudeScale));
+        edges.forEach((key, value) -> {
+        		Edge e = edges.get(key);
+        		int startX = (int) ((e.getStart().getLongitude() - minLongitude) * longitudeScale);
+    			int startY = (int) (this.getHeight() - ((e.getStart().getLatitude() - minLatitude) * latitudeScale));
+    			
+    			
+    			int endX = (int) ((e.getEnd().getLongitude() - minLongitude) * longitudeScale);
+    			int endY = (int) (this.getHeight() - ((e.getEnd().getLatitude() - minLatitude) * latitudeScale));
+    
+    			g2.drawLine(startX, startY, endX, endY);
+        		
+        });
+        
 
-			g2.drawLine(startX, startY, endX, endY);
-
-        }
 
     }
 	
@@ -92,7 +93,7 @@ public class StreetMap2 extends JPanel {
 	            	   		if (e.getWeight() > maxDistance) {
 	            	   			maxDistance = e.getWeight();
 	            	   		}
-	            	   		edges.add(e);
+	            	   		edges.put(e.getID(), e);
 	               }
 	        }
 	        
@@ -117,7 +118,7 @@ public class StreetMap2 extends JPanel {
 	
 	
 	public static void main(String[] args) {
-		input = "nys.txt";
+		input = "monroe.txt";
 		JFrame frame = new JFrame();
         frame.setSize(400, 420);
         frame.setLocationRelativeTo(null);
