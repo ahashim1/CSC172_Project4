@@ -4,10 +4,7 @@ import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -118,7 +115,7 @@ public class StreetMap2 extends JPanel {
 	
 	
 	public static void main(String[] args) {
-		input = "monroe.txt";
+		input = "ur.txt";
 		JFrame frame = new JFrame();
         frame.setSize(400, 420);
         frame.setLocationRelativeTo(null);
