@@ -39,6 +39,7 @@ public class Vertex {
     }
 
     public void addToPath(Vertex toAdd) {
+  
         path.add(toAdd);
     }
 

@@ -39,8 +39,8 @@ public class StreetMap extends JPanel {
         g2.setColor(Color.BLACK);
         
         
-        double latitudeScale = this.getWidth()/Math.abs(maxLatitude - minLatitude) ;
-        double longitudeScale = this.getHeight()/Math.abs(maxLongitude - minLongitude) ;
+        double latitudeScale = this.getHeight()/Math.abs(maxLatitude - minLatitude) ;
+        double longitudeScale = this.getWidth()/Math.abs(maxLongitude - minLongitude) ;
        
         for (int i = 0; i<edges.size(); i++) {
 			Edge e = edges.get(i);
@@ -102,9 +102,10 @@ public class StreetMap extends JPanel {
  //               distances.put(v, closestDistance(node) + getDistance(node, v));
                 v.setDistance(closestDistance(node) + getDistance(node, v));
 //                predecessors.put(v,node);
+                System.out.println(node.getID());
                 v.addToPath(node);
                 unevaluatedNodes.add(v);
-//                System.out.println(v.getID());
+                System.out.println(v.getID());
             }
         }
     }
@@ -246,7 +247,7 @@ public class StreetMap extends JPanel {
 	            }
 	        }
 
-        Vertex start = vertices.get(0);
+        Vertex start = vertices.get(2);
 		Vertex end = vertices.get(15);
         calculate(start);
 		List<Vertex> route = findPath(end);
@@ -268,6 +269,7 @@ public class StreetMap extends JPanel {
 	}
 
 	private static void printList(List<Vertex> route) {
+		
         if (route.isEmpty()) {
             System.out.println("This is wrong");
         }
