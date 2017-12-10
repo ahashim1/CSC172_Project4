@@ -254,13 +254,13 @@ public class StreetMap extends JPanel {
 	            }
 	        }
 
-        Vertex start = vertices.get(2);
-		Vertex end = vertices.get(15);
-
-        calculate(start);
-
-		List<Vertex> route = end.getPath();
-		printList(route);
+//        Vertex start = vertices.get(2);
+//		Vertex end = vertices.get(15);
+//
+//        calculate(start);
+//
+//		List<Vertex> route = end.getPath();
+//		printList(route);
 
 	}
 	

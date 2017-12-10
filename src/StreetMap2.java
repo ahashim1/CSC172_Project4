@@ -94,7 +94,8 @@ public class StreetMap2 extends JPanel {
 	               }
 	        }
 	        
-//	        Graph g = new Graph(vertices, edges);
+	        Graph g = new Graph(vertices, edges);
+	        g.shortestPath("GOERGEN-ATHLETIC", "CSB");
 
 	        } catch (IOException e) {
 	            e.printStackTrace();
@@ -116,7 +117,7 @@ public class StreetMap2 extends JPanel {
 	
 	public static void main(String[] args) {
 		
-		input = "monroe.txt";
+		input = "ur.txt";
 		JFrame frame = new JFrame();
         frame.setSize(400, 420);
         frame.setLocationRelativeTo(null);

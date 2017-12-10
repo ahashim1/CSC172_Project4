@@ -6,7 +6,6 @@ public class Vertex implements Comparable<Vertex> {
     private String id;
     private double latitude;
     private double longitude;
-
     /*
     Returns true if the current path is a better way to get to a node than
     its saved path
@@ -19,7 +18,6 @@ public class Vertex implements Comparable<Vertex> {
         return Double.compare(dist2, dist1);
     }
 
-    private List<Vertex> path = new LinkedList<>();
     private double distance = Double.MAX_VALUE;
     private Vertex parent;
 
@@ -27,7 +25,7 @@ public class Vertex implements Comparable<Vertex> {
        this.id = id;
        this.latitude = latitude;
        this.longitude = longitude;
-       path.add(this);
+       this.parent = null;
     }
     
     public String getID() {
@@ -49,14 +47,16 @@ public class Vertex implements Comparable<Vertex> {
     public double getDistance() {
         return distance;
     }
-
-    public void addToPath(Vertex toAdd) {
-  
-        path.add(toAdd);
+    
+    public void setParent(Vertex v) {
+    		parent = v;
+    }
+    
+    public Vertex getParent() {
+    		return parent;
     }
 
-    public List<Vertex> getPath() {
-        return path;
-    }
+    
+   
     
 }
