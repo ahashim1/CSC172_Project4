@@ -89,23 +89,32 @@ public class StreetMap extends JPanel {
 //        return path;
 //    }
 
-    public static List<Vertex> findPath(Vertex end) {
-        return end.getPath();
-    }
+//    public static List<Vertex> findPath(Vertex end) {
+//        return end.getPath();
+//    }
 
 
     //  Perform DJ Ikstra's algorithm
     private static void findShortestPath(Vertex node) {
         ArrayList<Vertex> adjacents = getAdjacent(node);
         for (Vertex v : adjacents) {
-            if (closestDistance(v) > closestDistance(node) + getDistance(node, v)) {
- //               distances.put(v, closestDistance(node) + getDistance(node, v));
-                v.setDistance(closestDistance(node) + getDistance(node, v));
+//            if (closestDistance(v) > closestDistance(node) + getDistance(node, v)) {
+                if (v.getDistance() > node.getDistance() + getDistance(node,v)) {
+                //distances.put(v, closestDistance(node) + getDistance(node, v));
+      //          v.setDistance(closestDistance(node) + getDistance(node, v));
+                    v.setDistance(node.getDistance() + getDistance(node,v));
 //                predecessors.put(v,node);
+<<<<<<< HEAD
                 System.out.println(node.getID());
                 v.addToPath(node);
                 unevaluatedNodes.add(v);
                 System.out.println(v.getID());
+=======
+
+                v.addToPath(node);
+//                System.out.println(v.getID());
+                unevaluatedNodes.add(v);
+>>>>>>> d3af26067384dbb60aff2b855a679df106c45ea0
             }
         }
     }
@@ -143,7 +152,8 @@ public class StreetMap extends JPanel {
                 min = v;
             }
             else {
-                if (closestDistance(v) < closestDistance(min)) {
+//                if (closestDistance(v) < closestDistance(min)) {
+                if (v.getDistance() < min.getDistance()) {
                     min = v;
                 }
             }
@@ -152,18 +162,18 @@ public class StreetMap extends JPanel {
     }
 
     //  Return distance of closest vertex to a vertex
-    private static double closestDistance(Vertex destination) {
-
-        Double d = destination.getDistance();
-
-        //  If unconnected, return infinity
-        if (d.equals(null)) {
-            return Double.MAX_VALUE;
-        }
-        else {
-            return d;
-        }
-    }
+//    private static double closestDistance(Vertex destination) {
+//
+//        Double d = destination.getDistance();
+//
+//        //  If unconnected, return infinity
+//        if (d == Double.MAX_VALUE) {
+//            return Double.MAX_VALUE;
+//        }
+//        else {
+//            return d;
+//        }
+//    }
 
     private static boolean isEvaluated(Vertex node) {
         return evaluatedNodes.contains(node);
@@ -249,8 +259,10 @@ public class StreetMap extends JPanel {
 
         Vertex start = vertices.get(2);
 		Vertex end = vertices.get(15);
+
         calculate(start);
-		List<Vertex> route = findPath(end);
+
+		List<Vertex> route = end.getPath();
 		printList(route);
 
 	}
