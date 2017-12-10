@@ -1,9 +1,8 @@
-//<<<<<<< HEAD
 import java.util.List;
 import java.util.ArrayList;
 
 public class Graph {
-
+	public ArrayList<ArrayList<Vertex>> adjacencyList;
     public List<Vertex> vertices;
     public List<Edge> edges;
     public int numVertices;
