@@ -98,13 +98,16 @@ public class StreetMap extends JPanel {
     private static void findShortestPath(Vertex node) {
         ArrayList<Vertex> adjacents = getAdjacent(node);
         for (Vertex v : adjacents) {
-            if (closestDistance(v) > closestDistance(node) + getDistance(node, v)) {
- //               distances.put(v, closestDistance(node) + getDistance(node, v));
-                v.setDistance(closestDistance(node) + getDistance(node, v));
+//            if (closestDistance(v) > closestDistance(node) + getDistance(node, v)) {
+                if (v.getDistance() > node.getDistance() + getDistance(node,v)) {
+                //distances.put(v, closestDistance(node) + getDistance(node, v));
+      //          v.setDistance(closestDistance(node) + getDistance(node, v));
+                    v.setDistance(node.getDistance() + getDistance(node,v));
 //                predecessors.put(v,node);
+
                 v.addToPath(node);
-                unevaluatedNodes.add(v);
 //                System.out.println(v.getID());
+                unevaluatedNodes.add(v);
             }
         }
     }
@@ -142,7 +145,8 @@ public class StreetMap extends JPanel {
                 min = v;
             }
             else {
-                if (closestDistance(v) < closestDistance(min)) {
+//                if (closestDistance(v) < closestDistance(min)) {
+                if (v.getDistance() < min.getDistance()) {
                     min = v;
                 }
             }
@@ -151,18 +155,18 @@ public class StreetMap extends JPanel {
     }
 
     //  Return distance of closest vertex to a vertex
-    private static double closestDistance(Vertex destination) {
-
-        Double d = destination.getDistance();
-
-        //  If unconnected, return infinity
-        if (d.equals(null)) {
-            return Double.MAX_VALUE;
-        }
-        else {
-            return d;
-        }
-    }
+//    private static double closestDistance(Vertex destination) {
+//
+//        Double d = destination.getDistance();
+//
+//        //  If unconnected, return infinity
+//        if (d == Double.MAX_VALUE) {
+//            return Double.MAX_VALUE;
+//        }
+//        else {
+//            return d;
+//        }
+//    }
 
     private static boolean isEvaluated(Vertex node) {
         return evaluatedNodes.contains(node);
