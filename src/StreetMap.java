@@ -150,7 +150,10 @@ public class StreetMap extends JPanel {
 
         System.out.println(path.get(path.size() - 1).getID());
         System.out.print("Path distance: ");
-		System.out.print(pathDistance * 0.621371);
+        double distMiles = pathDistance * 0.621371;
+        double roundedMiles =  Math.floor(distMiles * 1000) / 1000;
+
+		System.out.print(roundedMiles);
 		System.out.println(" miles");
 		
 	}
