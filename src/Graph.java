@@ -88,7 +88,7 @@ public class Graph {
     }
     
     
-    public void shortestPath(String startID, String endID) {
+    public ArrayList<Vertex> shortestPath(String startID, String endID) {
     		PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>();
     		Vertex start = vertices.get(startID);
     		start.setDistance(0);
@@ -122,11 +122,11 @@ public class Graph {
     		Vertex vertex = vertices.get(endID);
     		while (vertex != null) {
     			path.add(0, vertex);
-    			System.out.println(vertex.getID());
     			vertex = vertex.getParent();
     			
     		}
-          
+         
+    		return path;
 
     }
 	

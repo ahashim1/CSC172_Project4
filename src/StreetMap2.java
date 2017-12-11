@@ -1,9 +1,12 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,6 +22,7 @@ public class StreetMap2 extends JPanel {
     static double width = 420;
     static double height = 400;
     static String input;
+    static ArrayList<Vertex> path;
     
     @Override
     public void paintComponent(Graphics g)
@@ -28,7 +32,7 @@ public class StreetMap2 extends JPanel {
     		readInput();
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.BLACK);
-        
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         double latitudeScale = this.getHeight()/Math.abs(maxLatitude - minLatitude) ;
         double longitudeScale = this.getWidth()/Math.abs(maxLongitude - minLongitude) ;
@@ -45,6 +49,20 @@ public class StreetMap2 extends JPanel {
     			g2.drawLine(startX, startY, endX, endY);
         		
         });
+        
+        g2.setColor(Color.RED);
+        g2.setStroke(new BasicStroke(5));
+        for (int i=0; i<path.size()-1; i++) {
+        		System.out.println(path.get(i).getID());
+        		int startX = (int) ((path.get(i).getLongitude() - minLongitude) * longitudeScale);
+    			int startY = (int) (this.getHeight() - ((path.get(i).getLatitude() - minLatitude) * latitudeScale));
+    			
+    			
+    			int endX = (int) ((path.get(i+1).getLongitude() - minLongitude) * longitudeScale);
+    			int endY = (int) (this.getHeight() - ((path.get(i+1).getLatitude() - minLatitude) * latitudeScale));
+    
+    			g2.drawLine(startX, startY, endX, endY);
+        }
         
 
 
@@ -95,7 +113,8 @@ public class StreetMap2 extends JPanel {
 	        }
 	        
 	        Graph g = new Graph(vertices, edges);
-	        g.shortestPath("GOERGEN-ATHLETIC", "CSB");
+	        path = g.shortestPath("GOERGEN-ATHLETIC", "CSB");
+	        
 
 	        } catch (IOException e) {
 	            e.printStackTrace();
