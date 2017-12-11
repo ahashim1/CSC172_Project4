@@ -14,6 +14,10 @@ import javax.swing.JPanel;
 public class StreetMap2 extends JPanel {
 	static HashMap<String, Vertex> vertices = new HashMap<String, Vertex>();
     static HashMap<String, Edge> edges = new HashMap<String, Edge>();
+    static boolean showMap = false;
+    static boolean showDirections = false;
+    static String startPointID = null;
+    static String endPointID = null;
     static double minLongitude = Double.MAX_VALUE;
     static double minLatitude = Double.MAX_VALUE;
     static double maxLongitude = -1 * Double.MAX_VALUE;
@@ -29,14 +33,12 @@ public class StreetMap2 extends JPanel {
     {
     	
     	
-    		readInput();
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.BLACK);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
         double latitudeScale = this.getHeight()/Math.abs(maxLatitude - minLatitude) ;
         double longitudeScale = this.getWidth()/Math.abs(maxLongitude - minLongitude) ;
-       
         edges.forEach((key, value) -> {
         		Edge e = edges.get(key);
         		int startX = (int) ((e.getStart().getLongitude() - minLongitude) * longitudeScale);
@@ -50,10 +52,10 @@ public class StreetMap2 extends JPanel {
         		
         });
         
+        if (showDirections) {
         g2.setColor(Color.RED);
         g2.setStroke(new BasicStroke(5));
         for (int i=0; i<path.size()-1; i++) {
-        		System.out.println(path.get(i).getID());
         		int startX = (int) ((path.get(i).getLongitude() - minLongitude) * longitudeScale);
     			int startY = (int) (this.getHeight() - ((path.get(i).getLatitude() - minLatitude) * latitudeScale));
     			
@@ -63,6 +65,8 @@ public class StreetMap2 extends JPanel {
     
     			g2.drawLine(startX, startY, endX, endY);
         }
+        }
+
         
 
 
@@ -112,8 +116,11 @@ public class StreetMap2 extends JPanel {
 	               }
 	        }
 	        
-	        Graph g = new Graph(vertices, edges);
-	        path = g.shortestPath("GOERGEN-ATHLETIC", "CSB");
+	        if (showDirections) {
+	        		Graph g = new Graph(vertices, edges);
+	        		path = g.shortestPath(startPointID, endPointID);
+	        		printPath();
+	        }
 	        
 
 	        } catch (IOException e) {
@@ -134,19 +141,47 @@ public class StreetMap2 extends JPanel {
 	
 	
 	
-	public static void main(String[] args) {
+	private static void printPath() {
+        double pathDistance = 0;
+		for (int i = 0; i < path.size() - 1; i++) {
+			System.out.println(path.get(i).getID());
+			pathDistance += Helper.getWeight(path.get(i), path.get(i+1));
+		}
+
+        System.out.println(path.get(path.size() - 1).getID());
+        System.out.print("Path distance: ");
+		System.out.print(pathDistance * 0.621371);
+		System.out.println(" miles");
 		
-		input = "ur.txt";
-		JFrame frame = new JFrame();
-        frame.setSize(400, 420);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
 
-        StreetMap2 streetmap = new StreetMap2();
-        frame.setContentPane(streetmap);
+	public static void main(String[] args) {
+		input = args[0];
 
-        frame.setVisible(true);
-        frame.invalidate();
+		for (int i = 1; i<args.length; i++) {
+			if (args[i].equals("--show")) {
+				showMap = true;
+			}else if (args[i].equals("--directions")) {
+				showDirections = true;
+				startPointID = args[i+1];
+				endPointID = args[i+2];
+			}
+		}
+
+		readInput();
+
+		if (showMap) {
+			JFrame frame = new JFrame();
+	        frame.setSize(400, 420);
+	        frame.setLocationRelativeTo(null);
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        
+	        StreetMap2 streetmap = new StreetMap2();
+	        frame.setContentPane(streetmap);
+	
+	        frame.setVisible(true);
+	        frame.invalidate();
+		}
 	}
 
 }

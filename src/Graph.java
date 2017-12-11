@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.PriorityQueue;
 
 public class Graph {
@@ -31,7 +29,6 @@ public class Graph {
         vertices.put(toAdd.getID(), toAdd);
     }
 
-    //  Add edges
     public void addEdge(Edge toAdd) {	
     		edges.put(toAdd.getID(), toAdd);
     }
@@ -89,6 +86,22 @@ public class Graph {
     
     
     public ArrayList<Vertex> shortestPath(String startID, String endID) {
+		ArrayList<Vertex> path = new ArrayList<Vertex>();
+
+		
+		if (startID == endID) {
+			System.out.println("These are the same two points");
+			path.add(vertices.get(startID));
+			return path;
+		}
+		
+		if (!vertices.containsKey(startID)) {
+			System.out.println("The start point does not exist");
+		}
+		
+		if (!vertices.containsKey(endID)) {
+			System.out.println("The end point does not exist");
+		}
     		PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>();
     		Vertex start = vertices.get(startID);
     		start.setDistance(0);
@@ -102,45 +115,32 @@ public class Graph {
 			}
     			ArrayList<Vertex> adjacentVertices = getAdjacentVertices(vertices.get(min.getID()));
     			for (Vertex adjVertex: adjacentVertices){
-	    				if (min.getDistance() + getWeight(min, adjVertex) < adjVertex.getDistance()) {
+	    				if (min.getDistance() + Helper.getWeight(min, adjVertex) < adjVertex.getDistance()) {
 	    					queue.remove(adjVertex);
 	    					adjVertex.setParent(min);
-	    					adjVertex.setDistance(min.getDistance() + getWeight(min, adjVertex));
+	    					adjVertex.setDistance(min.getDistance() + Helper.getWeight(min, adjVertex));
 	    					queue.add(adjVertex);
-
+	    					
 
 	    				}
-	    				
-	    				
-    				
     			}
-    			
-
     		}
     		
-    		ArrayList<Vertex> path = new ArrayList<Vertex>();
     		Vertex vertex = vertices.get(endID);
     		while (vertex != null) {
     			path.add(0, vertex);
     			vertex = vertex.getParent();
-    			
+    		}
+    		
+    		if (path.size() == 1) {
+    			System.out.println("These intersections are not connected");
     		}
          
     		return path;
 
     }
 	
-	private double getWeight(Vertex start2, Vertex end2) {
-		final double R = 6372.8;
-		double latDiff = Math.toRadians(end2.getLatitude() - start2.getLatitude());
-		double longDiff = Math.toRadians(end2.getLongitude() - start2.getLongitude());
-		double startLat = Math.toRadians(start2.getLatitude());
-		double endLat = Math.toRadians(end2.getLatitude());
-		
-		double a = Math.pow(Math.sin(latDiff/2), 2) + Math.pow(Math.sin(longDiff)/2, 2) * Math.cos(startLat) * Math.cos(endLat);
-		double c = 2 * Math.asin(Math.sqrt(a));
-		return R * c;
-	}
+
 
 	private ArrayList<Vertex> getAdjacentVertices(Vertex start) {
 		return adjacencyList.get(start.getID());
