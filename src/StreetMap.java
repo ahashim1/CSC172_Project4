@@ -11,7 +11,7 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class StreetMap2 extends JPanel {
+public class StreetMap extends JPanel {
 	static HashMap<String, Vertex> vertices = new HashMap<String, Vertex>();
     static HashMap<String, Edge> edges = new HashMap<String, Edge>();
     static boolean showMap = false;
@@ -176,7 +176,7 @@ public class StreetMap2 extends JPanel {
 	        frame.setLocationRelativeTo(null);
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        
-	        StreetMap2 streetmap = new StreetMap2();
+	        StreetMap streetmap = new StreetMap();
 	        frame.setContentPane(streetmap);
 	
 	        frame.setVisible(true);
