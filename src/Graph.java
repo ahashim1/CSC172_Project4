@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class Graph {
@@ -65,11 +67,11 @@ public class Graph {
 	    		}else if (adjacencyList.containsKey(end.getID())) {
 	    			ArrayList<Vertex> list2 = adjacencyList.get(end.getID());
 	    			list2.add(start);
-	    			adjacencyList.put(start.getID(), list2);
+	    			adjacencyList.put(end.getID(), list2);
 	    			
 	    			ArrayList<Vertex> list1 = new ArrayList<Vertex>();
 	    			list2.add(end);
-	    			adjacencyList.put(end.getID(), list1);
+	    			adjacencyList.put(start.getID(), list1);
 	    		}
 	    		else {
 	    			
@@ -95,53 +97,50 @@ public class Graph {
     		
     		while (!queue.isEmpty()) {
     			Vertex min = queue.poll();
+			if (min.getID() == endID) {
+				break;
+			}
     			ArrayList<Vertex> adjacentVertices = getAdjacentVertices(vertices.get(min.getID()));
-    			for (int i = 0; i<adjacentVertices.size(); i++) {
-    				Vertex adjVertex = adjacentVertices.get(i);
-    				if (min.getDistance() + getWeight(min, adjVertex) < adjVertex.getDistance()) {
-    					queue.remove(adjVertex);
-    					adjVertex.setDistance(min.getDistance() + getWeight(min, adjVertex));
-    					adjVertex.setParent(min);
-    					queue.add(adjVertex);
-    				}
-    			}
-    		}
-    				
-    					
+    			for (Vertex adjVertex: adjacentVertices){
+	    				if (min.getDistance() + getWeight(min, adjVertex) < adjVertex.getDistance()) {
+	    					queue.remove(adjVertex);
+	    					adjVertex.setParent(min);
+	    					adjVertex.setDistance(min.getDistance() + getWeight(min, adjVertex));
+	    					queue.add(adjVertex);
 
 
-//	    				if (adjVertex.getID() == endID) {
-//    						break;
-//    					}
+	    				}
+	    				
 	    				
     				
-    				
+    			}
+    			
 
-  
-    		
-    		Vertex v = vertices.get(endID);
-    		while (v.getParent() != null) {
-    			Vertex parent = v.getParent();
-    			System.out.println(parent.getID());
-    			v = parent;
     		}
     		
-    		
+    		ArrayList<Vertex> path = new ArrayList<Vertex>();
+    		Vertex vertex = vertices.get(endID);
+    		while (vertex != null) {
+    			path.add(0, vertex);
+    			System.out.println(vertex.getID());
+    			vertex = vertex.getParent();
+    			
+    		}
+          
+
     }
-
-	private void relax(Vertex min, Vertex adjVertex) {
-		
-	}
-
-//	private double getWeight(Vertex min, Vertex adjVertex) {
-//		
-//		return 0;
-//	}
 	
-    private double getWeight(Vertex start2, Vertex end2) {
-		double weight = Math.sqrt(Math.pow(end2.getLatitude() - start2.getLatitude(), 2) + Math.pow(end2.getLongitude() - start2.getLongitude(), 2));
-	return weight;
-}
+	private double getWeight(Vertex start2, Vertex end2) {
+		final double R = 6372.8;
+		double latDiff = Math.toRadians(end2.getLatitude() - start2.getLatitude());
+		double longDiff = Math.toRadians(end2.getLongitude() - start2.getLongitude());
+		double startLat = Math.toRadians(start2.getLatitude());
+		double endLat = Math.toRadians(end2.getLatitude());
+		
+		double a = Math.pow(Math.sin(latDiff/2), 2) + Math.pow(Math.sin(longDiff)/2, 2) * Math.cos(startLat) * Math.cos(endLat);
+		double c = 2 * Math.asin(Math.sqrt(a));
+		return R * c;
+	}
 
 	private ArrayList<Vertex> getAdjacentVertices(Vertex start) {
 		return adjacencyList.get(start.getID());
