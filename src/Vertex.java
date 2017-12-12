@@ -1,6 +1,6 @@
-import java.util.LinkedList;
-import java.util.List;
+// Authors: Ali Hashim and James Emery
 
+// Implementing comparable to use in a priority queue
 public class Vertex implements Comparable<Vertex> {
 
     private String id;

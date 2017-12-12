@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
+// Authors: Ali Hashim and James Emery
 public class Graph {
 	public HashMap<String, ArrayList<Vertex>> adjacencyList = new HashMap<String, ArrayList<Vertex>>();
     public HashMap<String, Vertex> vertices;
@@ -34,13 +35,14 @@ public class Graph {
     }
 
     
-    
+    // Builds the adjacency list
     public void buildAdjacencyList() {
 	    	edges.forEach((key, value) -> {
 	    		Edge e = edges.get(key);
 	    		Vertex start = e.getStart();
 	    		Vertex end = e.getEnd();
 	    		
+	    		// If both keys already exist in the adjacency list, just add to the list
 	    		if (adjacencyList.containsKey(start.getID()) && adjacencyList.containsKey(end.getID())) {
 	    		
 	    		
@@ -50,7 +52,7 @@ public class Graph {
 	    			ArrayList<Vertex> list2 = adjacencyList.get(end.getID());
 	    			list2.add(start);
 	    			adjacencyList.put(end.getID(), list2);
-	    			
+	    		// If just the startID key exists, add to the start list and create a list for the end point
 	    		}else if (adjacencyList.containsKey(start.getID())){
 	    			ArrayList<Vertex> list1 = adjacencyList.get(start.getID());
 	    			
@@ -61,6 +63,8 @@ public class Graph {
 	    			ArrayList<Vertex> list2 = new ArrayList<Vertex>();
 	    			list2.add(start);
 	    			adjacencyList.put(end.getID(), list2);
+	    			
+	    			// If just the endID exists
 	    		}else if (adjacencyList.containsKey(end.getID())) {
 	    			ArrayList<Vertex> list2 = adjacencyList.get(end.getID());
 	    			list2.add(start);
@@ -70,6 +74,7 @@ public class Graph {
 	    			list2.add(end);
 	    			adjacencyList.put(start.getID(), list1);
 	    		}
+	    		// If none of the IDs are in the HashMap yet.
 	    		else {
 	    			
 	    			ArrayList<Vertex> list1 = new ArrayList<Vertex>();
@@ -84,30 +89,33 @@ public class Graph {
     		
     }
     
-    
+    // Implementing Dijkstra
     public ArrayList<Vertex> shortestPath(String startID, String endID) {
 		ArrayList<Vertex> path = new ArrayList<Vertex>();
 
 		
 		if (startID == endID) {
-			System.out.println("These are the same two points");
+			System.err.println("These are the same two points");
 			path.add(vertices.get(startID));
 			return path;
 		}
 		
 		if (!vertices.containsKey(startID)) {
-			System.out.println("The start point does not exist");
+			System.err.println("The start point does not exist");
 		}
 		
 		if (!vertices.containsKey(endID)) {
-			System.out.println("The end point does not exist");
+			System.err.println("The end point does not exist");
 		}
+		
+		// Adds the start vertex to a priority queue with the distance of 0
     		PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>();
     		Vertex start = vertices.get(startID);
     		start.setDistance(0);
     		queue.add(start);
     		
-    		
+    		// While the queue is empty, retrieve the minimum vertex in the queue, find its adjacent vertices, 
+    		// update the priority queue with an updated weight if needed. It breaks if it reaches the end point
     		while (!queue.isEmpty()) {
     			Vertex min = queue.poll();
 			if (min.getID() == endID) {
@@ -126,14 +134,17 @@ public class Graph {
     			}
     		}
     		
+    		
+//    		Iterates through the end vertex's parents until its parent is null to get the path in reverse order
     		Vertex vertex = vertices.get(endID);
     		while (vertex != null) {
     			path.add(0, vertex);
     			vertex = vertex.getParent();
     		}
     		
+    		// If there is no path to the endID then the start and end are not connected
     		if (path.size() == 1) {
-    			System.out.println("These intersections are not connected");
+    			System.err.println("These intersections are not connected");
     		}
          
     		return path;

@@ -1,4 +1,4 @@
-
+// Authors: Ali Hashim and James Emery
 public class Helper {
     // Haversine formula
 	public static double getWeight(Vertex start2, Vertex end2) {

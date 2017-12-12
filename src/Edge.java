@@ -1,3 +1,5 @@
+// Authors: Ali Hashim and James Emery
+
 public class Edge {
 
     private String id;
@@ -9,6 +11,8 @@ public class Edge {
         id = id_String;
         start = startVertex;
         end = endVertex;
+        
+        // Gets distance between two vertices using Haversine
         weight = Helper.getWeight(start, end);
     }
 
@@ -29,15 +33,7 @@ public class Edge {
     		return weight;
     }
 
-    public boolean contains(Vertex test) {
-        Vertex temp1 = start;
-        Vertex temp2 = end;
-
-        if (test == temp1 || test == temp2) {
-            return true;
-        }
-        return false;
-    }
+   
 
 	
 }

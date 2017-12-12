@@ -11,7 +11,9 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+// Authors: Ali Hashim and James Emery
 public class StreetMap extends JPanel {
+	// Initializing variables 
 	static HashMap<String, Vertex> vertices = new HashMap<String, Vertex>();
     static HashMap<String, Edge> edges = new HashMap<String, Edge>();
     static boolean showMap = false;
@@ -159,6 +161,10 @@ public class StreetMap extends JPanel {
 	}
 
 	public static void main(String[] args) {
+		if (args.length == 0){
+			System.err.println("Need command line arguments");
+			return;
+		}
 		input = args[0];
 
 		for (int i = 1; i<args.length; i++) {
@@ -166,9 +172,21 @@ public class StreetMap extends JPanel {
 				showMap = true;
 			}else if (args[i].equals("--directions")) {
 				showDirections = true;
+				if (args.length == i+1) {
+					System.err.println("Need two points after '--directions'");
+					return;
+				}else if (args.length == i + 2) {
+					System.err.println("Need two points after '--directions'");
+					return;
+				}
 				startPointID = args[i+1];
 				endPointID = args[i+2];
 			}
+		}
+		
+		if (!showMap && !showDirections) {
+			System.err.println("You need to specify to show directions via '--directions startID endID' or to show the map via '--show'");
+			
 		}
 
 		readInput();
